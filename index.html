@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+</head>
+<body>
+    <h1>Currency Converter</h1>
+    <form id="currencyForm">
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" required>
+
+        <label for="fromCurrency">From Currency:</label>
+        <input type="text" id="fromCurrency" required>
+
+        <label for="toCurrency">To Currency:</label>
+        <input type="text" id="toCurrency" required>
+
+        <button type="button" onclick="convertCurrency()">Convert</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function convertCurrency() {
+            const amount = document.getElementById("amount").value;
+            const fromCurrency = document.getElementById("fromCurrency").value.toUpperCase();
+            const toCurrency = document.getElementById("toCurrency").value.toUpperCase();
+
+            fetch(`https://localhost:44354/api/currencyconversion?amount=${amount}&fromCurrency=${fromCurrency}&toCurrency=${toCurrency}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").innerHTML = `Converted Amount: ${data.amount} ${data.toCurrency}`;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
